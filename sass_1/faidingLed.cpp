@@ -5,7 +5,7 @@
 int intensity = 0;
 int fadeAmount = 5;
 unsigned long lastFadeTime = 0;
-unsigned long fadeInterval = 20;
+unsigned long fadeInterval = 20; //prova
 
 void faiding() {
     int currentMillis = millis();

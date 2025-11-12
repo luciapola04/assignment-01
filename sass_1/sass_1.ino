@@ -11,13 +11,16 @@ void setup() {
   for (int i = 0; i<NUM_BTNS; i++) {
   	pinMode(btns_pin[i], INPUT);
   }
-  Serial.begin(9600);
-  randomSeed(analogRead(A4));
-  faiding();
-  lcd.init();   
+  lcd.init(); 
   lcd.backlight(); 
-  lcd.setCursor(5, 1);
-  lcd.print("LET'S PLAY!");
+  lcd.setCursor(2, 0); 
+  lcd.print("Welcome to TOS!"); 
+  lcd.setCursor(5, 1); 
+  lcd.print("Press B1"); 
+  lcd.setCursor(5, 2); 
+  lcd.print("to Start");
+  randomSeed(analogRead(A4)); 
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -36,4 +39,3 @@ void loop() {
   }
   faiding();
 }
-
