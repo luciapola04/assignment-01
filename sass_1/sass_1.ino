@@ -1,5 +1,6 @@
 #include <LiquidCrystal_I2C.h>
-#include <config.h>
+#include "config.h"
+#include "faidingLed.h"
 
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27,20,4);
 unsigned long lastSequenceTime = 0;   
@@ -12,6 +13,7 @@ void setup() {
   }
   Serial.begin(9600);
   randomSeed(analogRead(A4));
+  faiding();
   lcd.init();   
   lcd.backlight(); 
   lcd.setCursor(5, 1);
@@ -32,5 +34,6 @@ void loop() {
       lcd.print(num);
     }
   }
+  faiding();
 }
 
