@@ -4,8 +4,8 @@
 
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27,20,4);
 
-int lastSequenceTime = 0;   
-int sequenceInterval = 5000;
+unsigned long lastSequenceTime = 0;   
+unsigned long sequenceInterval = 5000;
 int score = 0;
 int currentNumber = 0;
 
@@ -14,7 +14,7 @@ int nums[NUM_BTNS] = {1, 2, 3, 4};
 int lastButtonState[NUM_BTNS] = {0,0,0,0};
 int actualButtonState[NUM_BTNS] = {0,0,0,0};
 int buttonDelay = 50;
-int buttonTimer[NUM_BTNS] = {0,0,0,0};
+unsigned long buttonTimer[NUM_BTNS] = {0,0,0,0};
 
 bool gameOver = false;
 bool gameStarted = false;
@@ -67,7 +67,7 @@ void loop() {
     userTurn=false;
     gameStarted = false;
     gameOver = false;
-    
+
     score = 0;
     currentNumber = 0;
 
