@@ -7,7 +7,7 @@ int fadeAmount = 5;
 unsigned long lastFadeTime = 0;
 unsigned long fadeInterval = 20; 
 bool initState = false;
-int initStartTime = 0;
+unsigned long initStartTime = 0;
 int initInterval = 10000;
 
 void faiding() {
@@ -23,6 +23,9 @@ void faiding() {
 }
 
 void initScreen(LiquidCrystal_I2C &lcd) {
+    
+    initStartTime = millis();
+    initState = true;
     lcd.init(); 
     lcd.backlight(); 
     lcd.setCursor(2, 0); 
@@ -31,8 +34,6 @@ void initScreen(LiquidCrystal_I2C &lcd) {
     lcd.print("Press B1"); 
     lcd.setCursor(5, 2); 
     lcd.print("to Start");
-    initState = true;
-    initStartTime = millis();
 }
 
 void wakeUp() {}
