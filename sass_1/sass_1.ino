@@ -84,23 +84,6 @@ void loop() {
       currentNumber = 0;
       initScreen(lcd);
     }
-    digitalWrite(RED_PIN,HIGH);
-    lcd.clear();
-    lcd.setCursor(5, 1);
-    lcd.print("Hai perso");
-    lcd.setCursor(5, 2);
-    lcd.print("Score :");
-    lcd.print(score);
-    delay(10000);
-
-    userTurn=false;
-    gameStarted = false;
-    gameOver = false;
-
-    score = 0;
-    currentNumber = 0;
-
-    initScreen(lcd);
   }
 }
 
