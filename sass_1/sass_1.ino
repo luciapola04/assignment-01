@@ -6,8 +6,10 @@ LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27,20,4);
 
 int lastSequenceTime = 0;   
 int sequenceInterval = 5000;
+int lastRed = 0;
 int score = 0;
 int currentNumber = 0;
+long gameOverStartTime = 0;
 
 int nums[NUM_BTNS] = {1, 2, 3, 4};
 
@@ -19,6 +21,7 @@ int buttonTimer[NUM_BTNS] = {0,0,0,0};
 bool gameOver = false;
 bool gameStarted = false;
 bool userTurn = false;
+bool gameOverInit = false;
 
 
 void setup() { 
@@ -55,25 +58,36 @@ void loop() {
   }
 
   if(gameOver){
-    digitalWrite(RED_PIN,HIGH);
-    lcd.clear();
-    lcd.setCursor(5, 1);
-    lcd.print("Hai perso");
-    lcd.setCursor(5, 2);
-    lcd.print("Score :");
-    lcd.print(score);
-    delay(10000);
+    long currentMillis = millis();
+    if (!gameOverInit) {
+      digitalWrite(RED_PIN, HIGH);
+      gameOverStartTime = currentMillis;
+      lcd.clear();
+      lcd.setCursor(5, 1);
+      lcd.print("Hai perso");
+      lcd.setCursor(5, 2);
+      lcd.print("Score :");
+      lcd.print(score);
+      gameOverInit = true;
+    }
 
-    userTurn=false;
-    gameStarted = false;
-    gameOver = false;
-    
-    score = 0;
-    currentNumber = 0;
+    if (currentMillis - gameOverStartTime >= 2000) {
+      digitalWrite(RED_PIN, LOW);
+    }
 
-    initScreen(lcd);
+    if (currentMillis - gameOverStartTime >= 10000) {
+      userTurn=false;
+      gameStarted = false;
+      gameOver = false;
+      initState = true;
+      gameOverInit = false;
+      score = 0;
+      currentNumber = 0;
+      initScreen(lcd);
+    }
   }
 }
+
 
 void generateSequence() {
 
@@ -116,9 +130,7 @@ void checkCorrectSequence(){
           gameOver = true;
         }
       }
-      }
-
-      
+      }  
     }
     lastButtonState[i] = buttonPressed;
   }
