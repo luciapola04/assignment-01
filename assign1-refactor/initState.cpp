@@ -2,8 +2,6 @@
 #include "initState.h"
 #include <Arduino.h>
 #include <avr/sleep.h>
-
-#include <EnableInterrupt.h>
 #include "config.h" // per RED_PIN, btns_pin[], ecc.
 
 int intensity = 0;

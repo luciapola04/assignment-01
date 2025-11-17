@@ -12,5 +12,9 @@ void wakeUp();
 extern bool initState;            // stato "intro" attivo
 extern unsigned long initStartTime;
 extern unsigned long initInterval; // timeout intro
+// Dichiarazioni per l'uso in initState.cpp
+void enableInterrupt(uint8_t pin, void (*userFunction)(), uint8_t mode);
+void disableInterrupt(uint8_t pin);
+
 
 #endif
