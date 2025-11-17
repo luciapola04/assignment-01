@@ -75,15 +75,18 @@ void loop() {
     }
 
     if (currentMillis - gameOverStartTime >= 10000) {
+      
       userTurn=false;
-      gameStarted = false;
-      gameOver = false;
       initState = true;
       gameOverInit = false;
+      gameOver = false;
       score = 0;
       currentNumber = 0;
       initScreen(lcd);
     }
+
+      gameStarted = false;
+
   }
 }
 
