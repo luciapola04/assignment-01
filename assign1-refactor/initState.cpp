@@ -2,7 +2,9 @@
 #include "initState.h"
 #include <Arduino.h>
 #include <avr/sleep.h>
-#include "config.h" // per RED_PIN, btns_pin[], ecc.
+#include "config.h"
+#include "input.h"
+ // per RED_PIN, btns_pin[], ecc.
 
 int intensity = 0;
 int fadeAmount = 5;
@@ -67,6 +69,8 @@ void deepSleep(LiquidCrystal_I2C &lcd) {
   // --- codice eseguito DOPO il risveglio ---
   sleep_disable();
   disableInterrupt(BTN_1);
+
+  initInput();
 
   initScreen(lcd);
 }

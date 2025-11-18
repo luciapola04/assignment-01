@@ -6,12 +6,13 @@
 #include "initState.h"
 
 #define MAX_TIME_IN_INTRO_STATE 10000
-//#define MAX_TIME_IN_STAGE2_STATE 10000
+
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27,20,4);
 
 int nums[NUM_BTNS] = {1, 2, 3, 4};
 int currentNumber = 0;
 int score = 0;
+int current;
 
 unsigned long t1 = T1;
 unsigned long f = F;
@@ -35,6 +36,33 @@ void intro() {
   if (digitalRead(BTN_1) == HIGH) {
     // Esempio: changeState(GAME_STATE);
     // Sostituisci con la transizione corretta nella tua applicazione:
+    int pot = analogRead(POT_PIN);   // 0–1023
+    int L = map(pot, 0, 1023, 1, 5); 
+
+    // Assicurazione extra (non obbligatoria, ma sicura)
+    if (L < 1) L = 1;
+    if (L > 4) L = 4;
+    lcd.clear();
+    lcd.setCursor(2, 1);
+    lcd.print("Difficulty: ");
+    lcd.print(L);
+    delay(3000);
+
+    // Qui puoi anche assegnare f in base alla difficolta'
+    switch (L) {
+      case 1:
+        f = F;
+        break;
+      case 2:
+        f = F - 500;
+        break;
+      case 3:
+        f = F - 1000;
+        break;
+      case 4:
+        f = F - 1500;
+        break;
+    }
     changeState(DEALER_STATE); // <<--- sostituisci questo
     return;
   }
@@ -79,10 +107,6 @@ void generateSequence(){
   }
 
   changeState(GUESS_STATE);
-  /* change the state if button 0 is pressed */
-  /*if (isButtonPressed(0)){
-    //changeState(STAGE2_STATE);          
-  }*/
 }
 
 void checkSequence(){
@@ -139,9 +163,9 @@ void gameOver(){
       gameOverStartTime = currentMillis;
       lcd.clear();
       lcd.setCursor(5, 1);
-      lcd.print("Hai perso");
-      lcd.setCursor(5, 2);
-      lcd.print("Score :");
+      lcd.print("Game Over");
+      lcd.setCursor(3, 2);
+      lcd.print("Final Score: ");
       lcd.print(score);
       gameOverInit = true;
     }
