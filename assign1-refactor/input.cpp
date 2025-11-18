@@ -1,14 +1,14 @@
 #include "input.h"
 #include "Arduino.h"
-#include "config.h"
 
 #include <EnableInterrupt.h>
 
-#define BOUNCING_TIME 50
+#define BOUNCING_TIME 100
 
 // #define __DEBUG__
 
 uint8_t inputPins[NUM_BTNS] = {BTN_1, BTN_2,BTN_3,BTN_4};
+bool buttonPressed[NUM_BTNS] = {false, false, false, false};
 
 /* used for debouncing */
 long lastButtonPressedTimestamps[NUM_BTNS];

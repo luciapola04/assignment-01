@@ -13,6 +13,10 @@ int nums[NUM_BTNS] = {1, 2, 3, 4};
 int currentNumber = 0;
 int score = 0;
 
+
+long gameOverStartTime = 0;
+bool gameOverInit = false;
+
 /* core business logic */
 
 void intro() {
@@ -69,6 +73,7 @@ void generateSequence(){
   }
   for (int i = 0; i < 4; i++) {
     lcd.print(nums[i]);
+    Serial.print(nums[i]);
   }
 
   changeState(GUESS_STATE);
@@ -88,13 +93,16 @@ void checkSequence(){
     if (isButtonPressed(i)) {
 
             // Consuma la pressione (reset del flag)
-            buttonPressed[i]=false;
+            resetInput();
+            Serial.print(i);
 
             // Logica della sequenza
             if (nums[currentNumber] == (i + 1)) {
                 currentNumber++;
             } 
             else {
+                
+                resetInput();
                 changeState(FINAL_STATE);
             }
         }
@@ -117,9 +125,34 @@ void checkSequence(){
   }*/
 
 
-void finalize(){
+void gameOver(){
   if (isJustEnteredInState()){
     Serial.println("Finalize...");
   }
-  changeState(INTRO_STATE);
+  long currentMillis = millis();
+    if (!gameOverInit) {
+      digitalWrite(RED_PIN, HIGH);
+      gameOverStartTime = currentMillis;
+      lcd.clear();
+      lcd.setCursor(5, 1);
+      lcd.print("Hai perso");
+      lcd.setCursor(5, 2);
+      lcd.print("Score :");
+      lcd.print(score);
+      gameOverInit = true;
+    }
+
+    if (currentMillis - gameOverStartTime >= 2000) {
+      digitalWrite(RED_PIN, LOW);
+    }
+
+    if (currentMillis - gameOverStartTime >= 10000) {
+      
+      initState = true;
+      gameOverInit = false;
+      score = 0;
+      currentNumber = 0;
+      changeState(INTRO_STATE);
+    }
+
 }

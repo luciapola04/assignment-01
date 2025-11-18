@@ -21,8 +21,10 @@ void loop(){
     generateSequence();
     break;
   case GUESS_STATE:
+    checkSequence();
     break;
   case FINAL_STATE:
+    gameOver();
     break;
   }
 }
