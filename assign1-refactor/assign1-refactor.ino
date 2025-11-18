@@ -2,10 +2,8 @@
 #include "config.h"
 #include "core.h"
 #include "input.h" 
-#include <LiquidCrystal_I2C.h>
 
 
-LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27,20,4);
 
 void setup() {
   Serial.begin(9600);  
@@ -17,9 +15,10 @@ void loop(){
   updateStateTime(); 
   switch (getCurrentState()) { 
   case INTRO_STATE:
-    intro(lcd);
+    intro();
     break;
   case DEALER_STATE:
+    generateSequence();
     break;
   case GUESS_STATE:
     break;

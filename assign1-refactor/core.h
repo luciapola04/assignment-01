@@ -10,7 +10,7 @@
 
 /* core business logic  */
 
-void intro(LiquidCrystal_I2C &lcd);
+void intro();
 void sleeping();
 void generateSequence();
 void checkSequence();

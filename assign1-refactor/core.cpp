@@ -7,10 +7,15 @@
 
 #define MAX_TIME_IN_INTRO_STATE 10000
 //#define MAX_TIME_IN_STAGE2_STATE 10000
+LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27,20,4);
+
+int nums[NUM_BTNS] = {1, 2, 3, 4};
+int currentNumber = 0;
+int score = 0;
 
 /* core business logic */
 
-void intro(LiquidCrystal_I2C &lcd) {
+void intro() {
   if (isJustEnteredInState()) {
     Serial.println("Intro...");
     // mostra la schermata di intro (inizializza initStartTime)
@@ -40,28 +45,77 @@ void intro(LiquidCrystal_I2C &lcd) {
   }
 }
 
-void stage1(){
+void generateSequence(){
+  
   if (isJustEnteredInState()){
-    Serial.println("Stage1...");
+    Serial.println("Generate Sequence...");
     resetInput();
+    digitalWrite(RED_PIN, LOW);
+    lcd.clear();
+    lcd.setCursor(5, 1);
+    lcd.print("GO!!");
+    delay(2000);
   }
 
-  /* change the state if button 0 is pressed */
-  if (isButtonPressed(0)){
-    //changeState(STAGE2_STATE);          
+  lcd.clear();
+  lcd.setCursor(5, 1);
+  lcd.print("Sequenza:");
+  lcd.setCursor(5, 2);
+  for (int i = 3; i > 0; i--) {
+    int j = random(0, i + 1);
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
   }
+  for (int i = 0; i < 4; i++) {
+    lcd.print(nums[i]);
+  }
+
+  changeState(GUESS_STATE);
+  /* change the state if button 0 is pressed */
+  /*if (isButtonPressed(0)){
+    //changeState(STAGE2_STATE);          
+  }*/
 }
 
-void stage2(){
+void checkSequence(){
   if (isJustEnteredInState()){
-    Serial.println("Stage2...");
+    Serial.println("checkSequence...");
   }
+
+  for(int i = 0; i < NUM_BTNS; i++){
+
+    if (isButtonPressed(i)) {
+
+            // Consuma la pressione (reset del flag)
+            buttonPressed[i]=false;
+
+            // Logica della sequenza
+            if (nums[currentNumber] == (i + 1)) {
+                currentNumber++;
+            } 
+            else {
+                changeState(FINAL_STATE);
+            }
+        }
+  }
+
+  if(currentNumber>=NUM_BTNS){
+    lcd.clear();
+    lcd.setCursor(5, 1);
+    lcd.print("Hai vinto");
+    score ++;
+    currentNumber = 0;
+    delay(500);
+    changeState(DEALER_STATE);
+  }
+}
 
   /* change the state if button 1 is pressed or max time elapsed*/
   /*if (isButtonPressed(1) || getCurrentTimeInState() > MAX_TIME_IN_STAGE2_STATE){
     changeState(FINAL_STATE);          
   }*/
-}
+
 
 void finalize(){
   if (isJustEnteredInState()){

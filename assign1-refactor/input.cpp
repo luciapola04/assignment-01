@@ -9,7 +9,6 @@
 // #define __DEBUG__
 
 uint8_t inputPins[NUM_BTNS] = {BTN_1, BTN_2,BTN_3,BTN_4};
-bool buttonPressed[NUM_BTNS] = {false, false,false,false};
 
 /* used for debouncing */
 long lastButtonPressedTimestamps[NUM_BTNS];
@@ -35,10 +34,8 @@ void buttonHandler(int i){
 
 void initInput(){
   for (int i = 0; i < NUM_BTNS; i++) {
-    pinMode(inputPins[i], INPUT); 
-    if(i==0){
-      enableInterrupt(inputPins[i], buttonHandlers[i], CHANGE);   
-    }     
+    pinMode(inputPins[i], INPUT);
+    enableInterrupt(inputPins[i], buttonHandlers[i], CHANGE);   
   }
 }
 
