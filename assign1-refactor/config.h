@@ -3,7 +3,7 @@
 
 #define NUM_BTNS 4
 
-#define T1 6000
+#define T1 8000
 #define F 2000
 
 #define POT_PIN A0

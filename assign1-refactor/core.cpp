@@ -51,18 +51,23 @@ void intro() {
     // Qui puoi anche assegnare f in base alla difficolta'
     switch (L) {
       case 1:
-        f = F;
-        break;
-      case 2:
-        f = F - 500;
-        break;
-      case 3:
-        f = F - 1000;
-        break;
-      case 4:
         f = F - 1500;
         break;
+      case 2:
+        f = F - 1000;
+        break;
+      case 3:
+        f = F - 500;
+        break;
+      case 4:
+        f = F;
+        break;
     }
+    digitalWrite(RED_PIN, LOW);
+    lcd.clear();
+    lcd.setCursor(5, 1);
+    lcd.print("GO!");
+    delay(2000);
     changeState(DEALER_STATE); // <<--- sostituisci questo
     return;
   }
@@ -84,11 +89,6 @@ void generateSequence(){
   if (isJustEnteredInState()){
     Serial.println("Generate Sequence...");
     resetInput();
-    digitalWrite(RED_PIN, LOW);
-    lcd.clear();
-    lcd.setCursor(5, 1);
-    lcd.print("GO!!");
-    delay(2000);
   }
 
   lcd.clear();
@@ -134,19 +134,20 @@ void checkSequence(){
         }
   }
 
-  if(currentNumber>=NUM_BTNS){
+  if(currentNumber>=NUM_BTNS){ 
+    score ++;
     lcd.clear();
     lcd.setCursor(5, 1);
-    lcd.print("Hai vinto");
-    score ++;
+    lcd.print("GOOD! Score: ");
+    lcd.print(score);
     currentNumber = 0;
-    t1=t1-F;
-    delay(500);
+    t1=t1-f;
+    delay(2000);
     changeState(DEALER_STATE);
 
   }
   
-  if(getCurrentTimeInState() > T1){
+  if(getCurrentTimeInState() > t1){
     changeState(FINAL_STATE);          
   }
 }
