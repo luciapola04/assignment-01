@@ -13,6 +13,8 @@ int nums[NUM_BTNS] = {1, 2, 3, 4};
 int currentNumber = 0;
 int score = 0;
 
+unsigned long t1 = T1;
+unsigned long f = F;
 
 long gameOverStartTime = 0;
 bool gameOverInit = false;
@@ -101,7 +103,7 @@ void checkSequence(){
                 currentNumber++;
             } 
             else {
-                
+                t1=T1;
                 resetInput();
                 changeState(FINAL_STATE);
             }
@@ -114,15 +116,17 @@ void checkSequence(){
     lcd.print("Hai vinto");
     score ++;
     currentNumber = 0;
+    t1=t1-F;
     delay(500);
     changeState(DEALER_STATE);
+
+  }
+  
+  if(getCurrentTimeInState() > T1){
+    changeState(FINAL_STATE);          
   }
 }
 
-  /* change the state if button 1 is pressed or max time elapsed*/
-  /*if (isButtonPressed(1) || getCurrentTimeInState() > MAX_TIME_IN_STAGE2_STATE){
-    changeState(FINAL_STATE);          
-  }*/
 
 
 void gameOver(){

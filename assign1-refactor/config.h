@@ -3,6 +3,9 @@
 
 #define NUM_BTNS 4
 
+#define T1 6000
+#define F 2000
+
 #define POT_PIN A0
 #define RED_PIN 5
 #define BTN_1 2
