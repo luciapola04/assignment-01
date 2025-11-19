@@ -8,8 +8,6 @@
 
 #include <LiquidCrystal_I2C.h>
 
-/* core business logic  */
-
 void intro();
 void sleeping();
 void generateSequence();

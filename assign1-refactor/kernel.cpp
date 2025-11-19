@@ -1,18 +1,13 @@
 #include "kernel.h"
 
-/* current state */
 int currentState;
 
-/* time in which the game entered in current state */
 long enteredStateTime;
 
-/* how long it the game is in current state */
 long currentTimeInState;
 
-/* flag which is true if it is the first cycle in that state */
 bool firstCheckInState; 
 
-/* state management procedures */
 
 int getCurrentState(){
   return currentState;

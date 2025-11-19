@@ -3,7 +3,6 @@
 
 #include "config.h"
 
-
 extern bool buttonPressed[NUM_BTNS];
 
 void initInput();
