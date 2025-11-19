@@ -8,7 +8,7 @@
 uint8_t inputPins[NUM_BTNS] = {BTN_1, BTN_2,BTN_3,BTN_4};
 bool buttonPressed[NUM_BTNS] = {false, false, false, false};
 
-long lastButtonPressedTimestamps[NUM_BTNS];
+unsigned long lastButtonPressedTimestamps[NUM_BTNS];
 
 void buttonHandler(int i);
 void buttonHandler1(){ buttonHandler(0); }

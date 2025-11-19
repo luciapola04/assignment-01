@@ -5,9 +5,6 @@
 #include "config.h"
 #include "initState.h"
 
-#define INTRO_INT 10000
-#define RED_INT
-
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27,20,4);
 
 int nums[NUM_BTNS] = {1, 2, 3, 4};
@@ -27,34 +24,10 @@ void intro() {
     Serial.println("Intro...");
     initScreen(lcd);
   }
-  faiding();
+  fading();
 
   if (digitalRead(BTN_1) == HIGH) {
-    int pot = analogRead(POT_PIN);  
-    int L = map(pot, 0, 1023, 1, 5); 
-
-    if (L < 1) L = 1;
-    if (L > 4) L = 4;
-    lcd.clear();
-    lcd.setCursor(2, 1);
-    lcd.print("Difficulty: ");
-    lcd.print(L);
-    delay(3000);
-
-    switch (L) {
-      case 1:
-        f = F - 1500;
-        break;
-      case 2:
-        f = F - 1000;
-        break;
-      case 3:
-        f = F - 500;
-        break;
-      case 4:
-        f = F;
-        break;
-    }
+    setPot();
     digitalWrite(RED_PIN, LOW);
     lcd.clear();
     lcd.setCursor(5, 1);
@@ -78,22 +51,7 @@ void generateSequence(){
     Serial.println("Generate Sequence...");
     resetInput();
   }
-
-  lcd.clear();
-  lcd.setCursor(5, 1);
-  lcd.print("Sequenza:");
-  lcd.setCursor(5, 2);
-  for (int i = 3; i > 0; i--) {
-    int j = random(0, i + 1);
-    int temp = nums[i];
-    nums[i] = nums[j];
-    nums[j] = temp;
-  }
-  for (int i = 0; i < 4; i++) {
-    lcd.print(nums[i]);
-    Serial.print(nums[i]);
-  }
-
+  getSequence();
   changeState(GUESS_STATE);
 }
 
@@ -164,5 +122,50 @@ void gameOver(){
     score = 0;
     currentNumber = 0;
     changeState(INTRO_STATE);
+  }
+}
+
+void setPot() {
+  int pot = analogRead(POT_PIN);  
+  int L = map(pot, 0, 1023, 1, 5); 
+
+  if (L < 1) L = 1;
+  if (L > 4) L = 4;
+  lcd.clear();
+  lcd.setCursor(2, 1);
+  lcd.print("Difficulty: ");
+  lcd.print(L);
+  delay(3000);
+
+  switch (L) {
+    case 1:
+      f = F - 1500;
+      break;
+    case 2:
+      f = F - 1000;
+      break;
+    case 3:
+      f = F - 500;
+      break;
+    case 4:
+      f = F;
+      break;
+  }
+}
+
+void getSequence() {
+  lcd.clear();
+  lcd.setCursor(5, 1);
+  lcd.print("Sequenza:");
+  lcd.setCursor(5, 2);
+  for (int i = 3; i > 0; i--) {
+    int j = random(0, i + 1);
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+  }
+  for (int i = 0; i < 4; i++) {
+    lcd.print(nums[i]);
+    Serial.print(nums[i]);
   }
 }

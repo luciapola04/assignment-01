@@ -9,12 +9,12 @@ int fadeAmount = 5;
 
 unsigned long lastFadeTime = 0;
 unsigned long fadeInterval = 20UL;
-
-bool initState = false;
 unsigned long initStartTime = 0;
 unsigned long initInterval = 10000UL;
 
-void faiding() {
+bool initState = false;
+
+void fading() {
   unsigned long currentMillis = millis();
   if (currentMillis - lastFadeTime >= fadeInterval) {
     lastFadeTime = currentMillis;

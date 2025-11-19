@@ -3,8 +3,6 @@
 
 #include "Arduino.h" 
 
-#define DEBUG
-
 void initKernel();
 void updateStateTime();
 void changeState(int new_state);

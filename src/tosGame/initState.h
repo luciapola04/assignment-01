@@ -4,7 +4,7 @@
 #include <LiquidCrystal_I2C.h>
 
 void initScreen(LiquidCrystal_I2C &lcd);
-void faiding();
+void fading();
 void deepSleep(LiquidCrystal_I2C &lcd);
 void wakeUp();
 

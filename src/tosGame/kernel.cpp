@@ -2,9 +2,9 @@
 
 int currentState;
 
-long enteredStateTime;
+unsigned long enteredStateTime;
 
-long currentTimeInState;
+unsigned long currentTimeInState;
 
 bool firstCheckInState; 
 
@@ -13,11 +13,11 @@ int getCurrentState(){
   return currentState;
 }
 
-long getCurrentTimeInState(){
+unsigned long getCurrentTimeInState(){
   return currentTimeInState;
 }
 
-long getEnteredStateTime(){
+unsigned long getEnteredStateTime(){
   return enteredStateTime;
 }
 
