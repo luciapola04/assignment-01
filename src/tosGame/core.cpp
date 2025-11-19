@@ -15,7 +15,6 @@ int current;
 unsigned long t1 = T1;
 unsigned long f = F;
 
-long gameOverStartTime = 0;
 bool gameOverInit = false;
 
 
@@ -38,7 +37,7 @@ void intro() {
   }
 
   unsigned long dt = getCurrentTimeInState();
-  if (dt > INTRO_INTERVAL) {
+  if (dt > INTRO_INT) {
     deepSleep(lcd);
     changeState(INTRO_STATE);
     return;
@@ -75,6 +74,12 @@ void checkSequence(){
     }
   }
 
+  if(getCurrentTimeInState() > t1){
+    Serial.print("TEMPO FINITO");
+    Serial.print(getCurrentTimeInState());
+    changeState(FINAL_STATE);          
+  }
+
   if(currentNumber>=NUM_BTNS){ 
     score ++;
     lcd.clear();
@@ -85,12 +90,7 @@ void checkSequence(){
     t1=t1-f;
     delay(2000);
     changeState(DEALER_STATE);
-
-  }
-  
-  if(getCurrentTimeInState() > t1){
-    changeState(FINAL_STATE);          
-  }
+  } 
 }
 
 
@@ -99,10 +99,8 @@ void gameOver(){
   if (isJustEnteredInState()){
     Serial.println("Finalize...");
   }
-  long currentMillis = millis();
   if (!gameOverInit) {
     digitalWrite(RED_PIN, HIGH);
-    gameOverStartTime = currentMillis;
     lcd.clear();
     lcd.setCursor(5, 1);
     lcd.print("Game Over");
@@ -112,15 +110,18 @@ void gameOver(){
     gameOverInit = true;
   }
 
-  if (currentMillis - gameOverStartTime >= RED_INT) {
+  unsigned long dt = getCurrentTimeInState();
+
+  if (dt >= RED_INT) {
     digitalWrite(RED_PIN, LOW);
   }
 
-  if (currentMillis - gameOverStartTime >= INTRO_INT) {
+  if (dt >= INTRO_INT) {
     initState = true;
     gameOverInit = false;
     score = 0;
     currentNumber = 0;
+    t1 = T1; 
     changeState(INTRO_STATE);
   }
 }

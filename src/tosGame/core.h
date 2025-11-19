@@ -15,5 +15,7 @@ void sleeping();
 void generateSequence();
 void checkSequence();
 void gameOver();
+void getSequence();
+void setPot();
 
 #endif

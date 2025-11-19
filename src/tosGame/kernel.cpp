@@ -13,11 +13,11 @@ int getCurrentState(){
   return currentState;
 }
 
-unsigned long getCurrentTimeInState(){
+long getCurrentTimeInState(){
   return currentTimeInState;
 }
 
-unsigned long getEnteredStateTime(){
+long getEnteredStateTime(){
   return enteredStateTime;
 }
 
